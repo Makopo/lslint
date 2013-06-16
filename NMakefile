@@ -7,12 +7,12 @@
 # 
 # 3. Add 1. unpacked directory to PATH.
 #
-# 4. Run "nmake /F Makefile" to build or "nmake /F Makefile debug=1" to build debuggable binary.
+# 4. Run "nmake /F NMakefile" to build or "nmake /F NMakefile debug=1" to build debuggable binary.
 #
-# 5. Run "nmake clean /F Makefile" to cleanup.
+# 5. Run "nmake clean /F NMakefile" to cleanup.
 # 
 # NOTE: builtins.txt should be converted beforehand if needed.
-# See Makefile on how to do that.
+# See line 90 in Makefile on how to do that.
 
 !IFNDEF DEBUG
 NODEBUG=1
