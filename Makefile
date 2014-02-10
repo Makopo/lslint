@@ -87,7 +87,10 @@ clean:
 $(OBJS): lslmini.hh
 
 builtins_txt.cc: builtins.txt
-	echo "char *builtins_txt[] = {" > builtins_txt.cc
+	echo "#ifdef _WIN32" > builtins_txt.cc
+	echo "#pragma execution_character_set(\"utf-8\")" >> builtins_txt.cc
+	echo "#endif" >> builtins_txt.cc
+	echo "char *builtins_txt[] = {" >> builtins_txt.cc
 	cat builtins.txt | \
 		sed "s/\"/\\\\\\\"/g" | \
 		sed "s/^/\"/g" | \
