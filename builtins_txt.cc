@@ -1,3 +1,6 @@
+#ifdef _WIN32
+#pragma execution_character_set("utf-8")
+#endif
 char *builtins_txt[] = {
 "integer llAbs( integer val )",
 "float llAcos( float val )",
@@ -118,7 +121,9 @@ char *builtins_txt[] = {
 "rotation llGetLocalRot(  )",
 "float llGetMass(  )",
 "float llGetMassMKS(  )",
+"float llGetMaxScaleFactor(  )",
 "integer llGetMemoryLimit(  )",
+"float llGetMinScaleFactor(  )",
 "void llGetNextEmail( string address, string subject )",
 "key llGetNotecardLine( string name, integer line )",
 "key llGetNumberOfNotecardLines( string name )",
@@ -304,6 +309,7 @@ char *builtins_txt[] = {
 "string llSHA1String( string src )",
 "integer llSameGroup( key id )",
 "void llSay( integer channel, string msg )",
+"integer llScaleByFactor( float scaling_factor )",
 "void llScaleTexture( float u, float v, integer face )",
 "integer llScriptDanger( vector pos )",
 "void llScriptProfiler( integer flags )",
