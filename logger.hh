@@ -143,7 +143,7 @@ class Logger {
     }
 
   protected:
-    Logger() : errors(0), warnings(0), show_end(false), show_info(false), sort(true), show_error_codes(false), check_assertions(false), last_message(NULL), file(stderr) {};
+    Logger() : errors(0), warnings(0), show_end(false), show_info(false), sort(true), show_error_codes(false), check_assertions(false), file_path(NULL), last_message(NULL), file(stderr) {};
     int     errors;
     int     warnings;
     bool    show_end;
