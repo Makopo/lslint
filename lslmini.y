@@ -491,7 +491,7 @@ function_parameters
 	{  
       if ( $1 ) {
           $1->push_child($3->get_children());
-          delete $3;
+          //delete $3;
           $$ = $1;
       } else {
           $$ = $3;
@@ -515,7 +515,7 @@ event_parameters
 	{  
       if ( $1 ) {
           $1->push_child($3->get_children());
-          delete $3;
+          //delete $3;
           $$ = $1;
       } else {
           $$ = $3;
