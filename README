@@ -30,7 +30,7 @@ MODIFIED (by Makopoppo):
 added nmake support (see NMAkefile for details).
 
 dropped builtins.txt creator. if you look for new builtins.txt, see kwdb project.
-https://code.google.com/p/kwdb/
+https://bitbucket.org/Sei_Lisa/kwdb
 
 enabled appending the input file path to the result lines by "-p".
 
