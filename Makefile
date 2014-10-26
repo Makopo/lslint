@@ -92,6 +92,7 @@ builtins_txt.cc: builtins.txt
 	echo "#endif" >> builtins_txt.cc
 	echo "char *builtins_txt[] = {" >> builtins_txt.cc
 	cat builtins.txt | \
+		sed "1d" | \
 		sed "s/\"/\\\\\\\"/g" | \
 		sed "s/^/\"/g" | \
 		sed "s/$$/\",/g" >> builtins_txt.cc
