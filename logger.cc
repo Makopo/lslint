@@ -263,7 +263,6 @@ const char *Logger::error_messages[] = {
       "Are you doing `foo-2`? Separate operators with spaces.\n"
       "See: http://secondlife.com/badgeo/wakka.php?wakka=knownbugs",
    "State must have at least one event handler.",
-   "Parser stack depth exceeded; SL will throw a syntax error here.",
    "`%s' is a constant and cannot be used as an lvalue.",
    "`%s' is a constant and cannot be used in a variable declaration.",
    "Declaring `%s' as parameter %d of `%s' which should be `%s %s'.",
@@ -297,4 +296,5 @@ const char *Logger::warning_messages[] = {
    "Condition is always true.",
    "Condition is always false.",
    "Multiple handlers for event `%s' - only the last will execute.",
+   "Parser stack depth exceeded; SL may throw a syntax error here.", // "will" -> "may"
 };
