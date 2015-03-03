@@ -1106,6 +1106,7 @@ char *builtins_txt[] = {
 "const integer XP_ERROR_NONE = 0",
 "const integer XP_ERROR_NOT_FOUND = 6",
 "const integer XP_ERROR_NOT_PERMITTED = 4",
+"const integer XP_ERROR_NOT_PERMITTED_LAND = 17",
 "const integer XP_ERROR_NO_EXPERIENCE = 5",
 "const integer XP_ERROR_QUOTA_EXCEEDED = 11",
 "const integer XP_ERROR_RETRY_UPDATE = 15",
