@@ -691,6 +691,7 @@ char *builtins_txt[] = {
 "const integer OBJECT_HOVER_HEIGHT = 25",
 "const integer OBJECT_LAST_OWNER_ID = 27",
 "const integer OBJECT_NAME = 1",
+"const integer OBJECT_OMEGA = 29",
 "const integer OBJECT_OWNER = 6",
 "const integer OBJECT_PATHFINDING_TYPE = 20",
 "const integer OBJECT_PHANTOM = 22",
