@@ -1,3 +1,5 @@
-language: c
+language: cpp
 compiler: clang
 script: make
+git:
+  depth: 1

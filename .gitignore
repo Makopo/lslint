@@ -1,0 +1,22 @@
+# Compiler output files #
+#########################
+*.obj
+*.output
+*.log
+*db
+*.tlog
+*.lastbuildstate
+*.ilk
+*.pdb
+.vs\*
+build_dir\
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.suo

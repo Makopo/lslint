@@ -2,7 +2,10 @@
 #define _LOGGER_HH 1
 
 #include <stdlib.h>
+#if !_MSC_VER
 #include <stdio.h>
+#endif // !_MSC_VER
+
 #include <vector>
 #include <utility>  // pair
 
@@ -98,13 +101,13 @@ enum ErrorCode {
 #define ERROR       Logger::get()->error
 
 
-#ifdef WIN32 /* hi my name is ms and i am stupid */
+#ifdef _MSC_VER
 #ifdef DEBUG_LEVEL
 #define DEBUG LOG
 #else /* not DEBUG_LEVEL */
 #define DEBUG __noop
 #endif /* not DEBUG_LEVEL */
-#else /* not WIN32 */
+#else /* not _MSC_VER */
 #ifdef DEBUG_LEVEL
 #define DEBUG LOG
 #else /* not DEBUG_LEVEL */

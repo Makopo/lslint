@@ -1,6 +1,5 @@
 #ifndef _AST_HH
 #define _AST_HH 1
-#include <stdlib.h> // NULL
 #include <stdarg.h> // va_arg
 #include "symtab.hh" // symbol table
 #include "logger.hh"

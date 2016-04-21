@@ -4,9 +4,9 @@
 #include "lslmini.tab.h"
 #include "symtab.hh"
 
-#ifdef WIN32
+#ifdef _MSC_VER
 #define strcasecmp _stricmp  // MSVC defines stricmp not strcasecmp
-#endif /* WIN32 */
+#endif // _MSC_VER
 
 void LLScriptSymbolTable::define(LLScriptSymbol *symbol) {
    symbols.push_back(symbol);
