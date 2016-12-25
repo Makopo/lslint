@@ -697,6 +697,7 @@ char *builtins_txt[] = {
 "const integer MASK_OWNER = 1",
 "const string NULL_KEY = \"00000000-0000-0000-0000-000000000000\"",
 "const integer OBJECT_ATTACHED_POINT = 19",
+"const integer OBJECT_ATTACHED_SLOTS_AVAILABLE = 35",
 "const integer OBJECT_BODY_SHAPE_TYPE = 26",
 "const integer OBJECT_CHARACTER_TIME = 17",
 "const integer OBJECT_CLICK_ACTION = 28",
