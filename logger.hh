@@ -117,7 +117,7 @@ enum ErrorCode {
 #define DEBUG(...)
 #endif /* not __GNUC__ */
 #endif /* not DEBUG_LEVEL */
-#endif /* not WIN32 */
+#endif /* not _MSC_VER */
 
 // Logger for a script. Singleton
 class Logger {

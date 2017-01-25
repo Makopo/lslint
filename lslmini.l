@@ -9,10 +9,10 @@
 #include "lslmini.hh"
 #include "lslmini.tab.h"
 
-#ifdef WIN32
+#ifdef _MSC_VER
 #include <io.h>
 #define isatty _isatty
-#endif /* WIN32 */
+#endif /* _MSC_VER */
 
 #define LLOC_RESET()    yylloc->first_column = yylloc->first_line = yylloc->last_column = yylloc->last_line = 1;
 #define LLOC_LINES(num) yylloc->last_column = 1; yylloc->last_line += (num);

@@ -24,7 +24,7 @@ void do_walk(class LLASTNode *node);
 #include "ast.hh"
 #include "types.hh"
 
-#ifdef WIN32
+#ifdef _MSC_VER
 #define snprintf _snprintf
 #define strdup _strdup
 #pragma warning( disable : 4996 4100 4267 4127 4244 )

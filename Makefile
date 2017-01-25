@@ -54,7 +54,7 @@ endif
 LDOUTPUT = -o 
 UPX = true
 else
-CXX = cl -W3 -TP -D "WIN32" -D "NDEBUG" -D "_CONSOLE" -D "_MBCS" -D "YY_NO_UNISTD_H" -FD -EHsc -nologo
+CXX = cl -W3 -TP -D "NDEBUG" -D "_CONSOLE" -D "_MBCS" -D "YY_NO_UNISTD_H" -FD -EHsc -nologo
 CXXOUTPUT = -Fo
 LD = link $(LINKDEBUG) -INCREMENTAL:NO -NOLOGO -SUBSYSTEM:CONSOLE -OPT:REF -OPT:ICF -MACHINE:X86  # kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib
 LDOUTPUT = -OUT:
@@ -87,7 +87,7 @@ clean:
 $(OBJS): lslmini.hh
 
 builtins_txt.cc: builtins.txt
-	echo "#ifdef _WIN32" > builtins_txt.cc
+	echo "#ifdef _MSC_VER" > builtins_txt.cc
 	echo "#pragma execution_character_set(\"utf-8\")" >> builtins_txt.cc
 	echo "#endif" >> builtins_txt.cc
 	echo "char *builtins_txt[] = {" >> builtins_txt.cc
