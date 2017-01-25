@@ -17,9 +17,15 @@
 NODEBUG=1
 !ENDIF
 
+# Uncomment this line to build on windows 7 or older SDK
+# WINXP=1
+
+!IFDEF WINXP
+# This file is probably optional since my fallback, but it doesn't hurt to leave support for it
+!include <win32.mak>
+!ELSE
 #############################################################
 # Replacement for win32.mak by Xenhat
-
 !IFNDEF NODEBUG
 cdebug = -Ox -DNDEBUG
 cvars = -D_MT -MD
@@ -32,8 +38,8 @@ conlflags = /INCREMENTAL:NO /NOLOGO -subsystem:console,$(EXEVER)
 
 cc = cl.exe
 link = link.exe
-
 ##############################################################
+!ENDIF
 
 VERSION_NUMBER = 0.4.3-xh
 BUILD_DATE = %DATE:~-10,4%-%DATE:~-5,2%-%DATE:~-2,2%
