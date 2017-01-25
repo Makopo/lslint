@@ -39,7 +39,7 @@
 #define __STDC_LIMIT_MACROS 1
 #endif
 
-#include <inttypes.h>
+// #include <inttypes.h> // <VS2015/>
 typedef int8_t flex_int8_t;
 typedef uint8_t flex_uint8_t;
 typedef int16_t flex_int16_t;
@@ -55,6 +55,21 @@ typedef unsigned short int flex_uint16_t;
 typedef unsigned int flex_uint32_t;
 
 /* Limits of integral types. */
+// <VS2015>
+/*
+#undef INT8_MIN
+#undef INT8_MAX
+#undef INT16_MIN
+#undef INT16_MAX
+#undef INT32_MIN
+#undef INT32_MAX
+#undef UINT8_MIN
+#undef UINT8_MAX
+#undef UINT16_MIN
+#undef UINT16_MAX
+#undef UINT32_MIN
+#undef UINT32_MAX
+
 #ifndef INT8_MIN
 #define INT8_MIN               (-128)
 #endif
@@ -82,7 +97,7 @@ typedef unsigned int flex_uint32_t;
 #ifndef UINT32_MAX
 #define UINT32_MAX             (4294967295U)
 #endif
-
+*/
 #endif /* ! C99 */
 
 #endif /* ! FLEXINT_H */
@@ -593,9 +608,6 @@ char *parse_string(char *input);
 
 /* exclusive state to eat comments of any length without overflowing any buffers */
 
-
-#line 598 "lex.yy.c"
-
 #define INITIAL 0
 #define COMMENT 1
 #define C_COMMENT 2
@@ -605,7 +617,7 @@ char *parse_string(char *input);
  * down here because we want the user's section 1 to have been scanned first.
  * The user has a chance to override it with an option.
  */
-#include <unistd.h>
+//#include <unistd.h>
 #endif
     
 #ifndef YY_EXTRA_TYPE
