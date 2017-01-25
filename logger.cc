@@ -259,9 +259,6 @@ const char *Logger::error_messages[] = {
    "Not all code paths return a value.",
    "%s", // Syntax error, bison includes all the info.
    "Global initialize must be constant.",
-   "Expression and constant without operator.\n"
-      "Are you doing `foo-2`? Separate operators with spaces.\n"
-      "See: http://secondlife.com/badgeo/wakka.php?wakka=knownbugs",
    "State must have at least one event handler.",
    "`%s' is a constant and cannot be used as an lvalue.",
    "`%s' is a constant and cannot be used in a variable declaration.",

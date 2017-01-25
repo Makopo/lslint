@@ -912,25 +912,6 @@ expression
 	{
     $$ = new LLScriptExpression(  $1, SHIFT_RIGHT,  $3  );
 	}
-    | expression INTEGER_CONSTANT
-    {
-    ERROR( &@2, E_NO_OPERATOR );
-    if ( $2 < 0 ) { // if const is negative, assume they meant expr - const
-        // - is included as part of the constant, so make sure to reverse it
-        $$ = new LLScriptExpression( $1, '-', new LLScriptExpression( 1, new LLScriptIntegerConstant( - $2) ) );
-    } else {
-        $$ = NULL;
-    }
-    }
-    | expression FP_CONSTANT
-    {
-    ERROR( &@2, E_NO_OPERATOR );
-    if ( $2 < 0 ) {
-        $$ = new LLScriptExpression( $1, '-', new LLScriptExpression( 1, new LLScriptFloatConstant( - $2) ) );
-    } else {
-        $$ = NULL;
-    }
-    }
      ;
 
 unaryexpression
