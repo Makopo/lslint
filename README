@@ -31,6 +31,10 @@ wrong, and is not recommended as a base for anything but a lint tool.
 * Makefile-less VS2015 support (more cpp hybridization was necessary)
     * Side effects includes x86_64 binary, x86 is possible still
 
+NOTE ABOUT CODE PAGE:
+You may need to change the system locale to "English(US)" for successful compilation.
+Use "chcp" command to make sure that the active code page is 437.
+
 ####Special Thanks
 Strife Onizuka
 Howie Lament
