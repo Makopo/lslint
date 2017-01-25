@@ -8,33 +8,6 @@
 #define VERSION "0.4.3-xh"
 #endif
 
-#ifndef BUILD_DATE
-#include <time.h>
-#endif
-
-// For Wed 04/20/2016
-// we had "04/2-/2-16"
-// NOTE: I'm not too sure why we should do this. Free free to properly implement. - Xenhat
-//#define BUILD_DATE " asdasdsadsa"
-
-// Get current date/time, format is MM-DD-YYYY
-std::string currentDate() {
-// I hope this works for you guys
-#ifdef BUILD_DATE
-	return static_cast<std::string>(BUILD_DATE);
-#else
-	time_t     now = time(0);
-	struct tm  tstruct;
-	char       buf[80];
-	tstruct = *localtime(&now);
-	// Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
-	// for more information about date/time format
-	strftime(buf, sizeof(buf), "%m/%d/%Y", &tstruct);
-
-	return buf;
-#endif
-}
-
 extern FILE *yyin;
 extern char *builtins_file;
 //extern int yynerrs;
@@ -768,7 +741,7 @@ void version() {
    fprintf(stderr, ",:.cxKMMWkxNMMMMMMMMMMMMMMXKWMMMKxc.,,                      Doran Zemlja\n");
    fprintf(stderr, "  ;c0XMMN;'OMMMMMWNWMMMMMX,.kMMMWKl.\n");
    fprintf(stderr, " ,:':XMMMWWMMMMMNllckMMMMMKKWMMMWo.::,             RELEaSE DaTE::\n");
-   fprintf(stderr, "     ;lKMMMMMMMMMKkONMMMMMMMMMMOc.:                           %s\n", currentDate().c_str());
+   fprintf(stderr, "     ;lKMMMMMMMMMKkONMMMMMMMMMMOc.:                           %s\n", __DATE__);
    fprintf(stderr, "   ,::' ;KWMMMMMWKkONMMMMMMNNXk:: :,\n");
    fprintf(stderr, "        ,coollodll:odxkkkkxocc;O\n");
    fprintf(stderr, "       '0MMMNx;.,doOKKKKKKKk:d:                    GReeTz::\n");
