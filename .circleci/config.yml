@@ -30,6 +30,7 @@ jobs:
   build-linux64:
     docker:
       - image: cimg/base:stable
+    resource_class: small
     environment:
       BUILD_VERSION_NUMBER: ${CIRCLE_TAG}
       DEBUG: ""
@@ -50,13 +51,16 @@ jobs:
           command: |
             mkdir -p binary/linux64/
             cp lslint binary/linux64/
+            cp kwdb_version.txt binary
       - persist_to_workspace:
           root: binary
           paths:
             - linux64/lslint
+            - kwdb_version.txt
   build-linux32:
     docker:
       - image: cimg/base:stable
+    resource_class: small
     environment:
       BUILD_VERSION_NUMBER: ${CIRCLE_TAG}
       BUILD_ADDITIONAL_ARG: "-m32"
@@ -151,6 +155,7 @@ jobs:
   release:
     docker:
       - image: cimg/go:1.20
+    resource_class: small
     steps:
       - attach_workspace:
           at: ./artifacts
@@ -168,11 +173,13 @@ jobs:
       - run:
           name: "Publish Release on GitHub"
           command: |
+            RELEASE_BODY="$(tail -n +2 artifacts/kwdb_version.txt)"
             go install github.com/tcnksm/ghr@latest
-            ghr -t "${GITHUB_TOKEN}" -u "${CIRCLE_PROJECT_USERNAME}" -r "${CIRCLE_PROJECT_REPONAME}" -c "${CIRCLE_SHA1}" -delete "${CIRCLE_TAG}" zips/
+            ghr -t "${GITHUB_TOKEN}" -u "${CIRCLE_PROJECT_USERNAME}" -r "${CIRCLE_PROJECT_REPONAME}" -c "${CIRCLE_SHA1}" -b "${RELEASE_BODY}" -delete "${CIRCLE_TAG}" zips/
   check-builtins:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/python:3.11
+    resource_class: small
     steps:
       - checkout
       - add_ssh_keys:
@@ -185,9 +192,12 @@ jobs:
             hasdiff=$(git status --porcelain builtins.txt)
             if [ -n "${hasdiff}" ] ; then
               make builtins_txt.cc
+              curl https://raw.githubusercontent.com/Sei-Lisa/kwdb/master/lsl2dfg/LSL2dfg.py -o /tmp/LSL2dfg.py
+              curl https://raw.githubusercontent.com/Sei-Lisa/kwdb/master/database/kwdb.xml -o /tmp/kwdb.xml
+              python /tmp/LSL2dfg.py --version --grid=sl,os --database=/tmp/kwdb.xml > kwdb_version.txt
               git config user.name "Makopoppo(via CircleCI)"
               git config user.email "bokemako@gmail.com"
-              git add builtins.txt builtins_txt.cc
+              git add builtins.txt builtins_txt.cc kwdb_version.txt
               git commit -m "update builtins_txt [ci skip]"
               git push --set-upstream origin main
             fi
@@ -234,7 +244,7 @@ workflows:
             - build-windows32
             - build-osx
   check-builtins:
-    when: << pipeline.parameters.run-schedule >>
+    # when: << pipeline.parameters.run-schedule >>
     jobs: 
       - check-builtins
     

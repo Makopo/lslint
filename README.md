@@ -7,8 +7,6 @@
 See [Releases](https://github.com/Makopo/lslint/releases) for binaries.
 Latest release resides [here](https://github.com/Makopo/lslint/releases/latest).
 
-**Evaluating moving to Circle CI or GitHub Action... please wait for a followup.**
-
 #### Compiling
 * `make` should be all that's required on POSIX systems, and a solution file exists for VS2015 on Windows.
 * [Win flex-bison](http://sourceforge.net/projects/winflexbison/) as well as VS2015 or [SDK7.0](https://www.microsoft.com/download/details.aspx?id=3138) or later are required for Windows build. See the comment in [NMakefile](NMakefile) for detailed instructions.
