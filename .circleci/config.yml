@@ -1,26 +1,240 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+orbs:
+  win: circleci/windows@5.0.0
+
 jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
-    docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+  build-osx:
+    macos:
+      xcode: 14.0.0
+    environment:
+      BUILD_VERSION_NUMBER: ${CIRCLE_TAG}
+      DEBUG: ""
     steps:
       - checkout
       - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
+          name: "make"
+          command: |
+            export PATH="/usr/local/opt/bison/bin:$PATH"
+            make
+            file -L lslint
+      - run:
+          name: "move"
+          command: |
+            mkdir -p binary/osx/
+            cp lslint binary/osx/
+      - persist_to_workspace:
+          root: binary
+          paths:
+            - osx/lslint
+  build-linux64:
+    docker:
+      - image: cimg/base:stable
+    environment:
+      BUILD_VERSION_NUMBER: ${CIRCLE_TAG}
+      DEBUG: ""
+    steps:
+      - checkout
+      - run:
+          name: "install flex and bison"
+          command: |
+            sudo apt-get update
+            sudo apt-get install flex bison
+      - run:
+          name: "make"
+          command: |
+            make
+            file -L lslint
+      - run:
+          name: "move"
+          command: |
+            mkdir -p binary/linux64/
+            cp lslint binary/linux64/
+      - persist_to_workspace:
+          root: binary
+          paths:
+            - linux64/lslint
+  build-linux32:
+    docker:
+      - image: cimg/base:stable
+    environment:
+      BUILD_VERSION_NUMBER: ${CIRCLE_TAG}
+      BUILD_ADDITIONAL_ARG: "-m32"
+      DEBUG: ""
+    steps:
+      - checkout
+      - run:
+          name: "install flex and bison and i386 related modules"
+          command: |
+            sudo apt-get update
+            sudo apt-get install flex bison gcc-multilib g++-multilib
+      - run:
+          name: "make"
+          command: |
+            make
+            file -L lslint
+      - run:
+          name: "move"
+          command: |
+            mkdir -p binary/linux32/
+            cp lslint binary/linux32/
+      - persist_to_workspace:
+          root: binary
+          paths:
+            - linux32/lslint
+  build-windows64:
+    executor:
+      name: win/default
+    steps:
+      - checkout
+      - run: 
+          name: place-flex_bison
+          command: |
+            curl.exe -L -O https://github.com/lexxmark/winflexbison/releases/download/v2.5.25/win_flex_bison-2.5.25.zip
+            mkdir C:\win_flex_bison
+            tar -xf win_flex_bison-2.5.25.zip -C C:\win_flex_bison
+      - run:
+          name: compile
+          command: | 
+            $vswhere = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe"
+            $instanceId = & $vswhere -property instanceId -format value
+            $installationPath = & $vswhere -property installationPath -format value
+            Import-Module (Join-Path $installationPath "Common7\Tools\Microsoft.VisualStudio.DevShell.dll")
+            Enter-VsDevShell $instanceId -SkipAutomaticLocation -Arch amd64
+            $Env:BUILD_VERSION_NUMBER="$Env:CIRCLE_TAG"
+            $Env:BUILD_DATE="$(Get-Date -Format "yyyy-MM-dd")"
+            $Env:Path+=";C:\win_flex_bison"
+            nmake /F NMakefile
+            dumpbin /headers lslint.exe
+      - run:
+          name: move
+          command: |
+            mkdir binary\win64
+            cp lslint.exe binary\win64
+      - persist_to_workspace:
+          root: binary
+          paths:
+            - win64/lslint.exe
+  build-windows32:
+    executor:
+      name: win/default
+    steps:
+      - checkout
+      - run: 
+          name: place-flex_bison
+          command: |
+            curl.exe -L -O https://github.com/lexxmark/winflexbison/releases/download/v2.5.25/win_flex_bison-2.5.25.zip
+            mkdir C:\win_flex_bison
+            tar -xf win_flex_bison-2.5.25.zip -C C:\win_flex_bison
+      - run:
+          name: compile
+          command: | 
+            $vswhere = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe"
+            $instanceId = & $vswhere -property instanceId -format value
+            $installationPath = & $vswhere -property installationPath -format value
+            Import-Module (Join-Path $installationPath "Common7\Tools\Microsoft.VisualStudio.DevShell.dll")
+            Enter-VsDevShell $instanceId -SkipAutomaticLocation -Arch x86
+            $Env:BUILD_VERSION_NUMBER="$Env:CIRCLE_TAG"
+            $Env:BUILD_DATE="$(Get-Date -Format "yyyy-MM-dd")"
+            $Env:Path+=";C:\win_flex_bison"
+            nmake /F NMakefile
+            dumpbin /headers lslint.exe
+      - run:
+          name: zip
+          command: |
+            mkdir binary\win32
+            cp lslint.exe binary\win32
+      - persist_to_workspace:
+          root: binary
+          paths:
+            - win32/lslint.exe
+  release:
+    docker:
+      - image: cimg/go:1.20
+    steps:
+      - attach_workspace:
+          at: ./artifacts
+      - store_artifacts:
+          path: ./artifacts
+      - run:
+          name: zip
+          command: |
+            mkdir zips
+            pushd artifacts/win32/; zip ../../zips/lslint_${CIRCLE_TAG}_win32.zip lslint.exe; popd
+            pushd artifacts/win64/; zip ../../zips/lslint_${CIRCLE_TAG}_win64.zip lslint.exe; popd
+            pushd artifacts/linux32/; zip ../../zips/lslint_${CIRCLE_TAG}_linux32.zip lslint; popd
+            pushd artifacts/linux64/; zip ../../zips/lslint_${CIRCLE_TAG}_linux64.zip lslint; popd
+            pushd artifacts/osx/; zip ../../zips/lslint_${CIRCLE_TAG}_osx.zip lslint; popd
+      - run:
+          name: "Publish Release on GitHub"
+          command: |
+            go install github.com/tcnksm/ghr@latest
+            ghr -t "${GITHUB_TOKEN}" -u "${CIRCLE_PROJECT_USERNAME}" -r "${CIRCLE_PROJECT_REPONAME}" -c "${CIRCLE_SHA1}" -delete "${CIRCLE_TAG}" zips/
+  check-builtins:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "65:60:85:2d:b9:dd:8a:5c:7b:d7:3c:f7:f5:62:b0:e7"
+      - run:
+          name: fetch_and_compare
+          command: |
+            curl -O https://raw.githubusercontent.com/Sei-Lisa/kwdb/master/outputs/builtins.txt
+            hasdiff=$(git status --porcelain builtins.txt)
+            if [ -n "${hasdiff}" ] ; then
+              make builtins_txt.cc
+              git config user.name "Makopoppo(via CircleCI)"
+              git config user.email "bokemako@gmail.com"
+              git add builtins.txt builtins_txt.cc
+              git commit -m "update builtins_txt [ci skip]"
+              git push --set-upstream origin main
+            fi
 
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+parameters:
+    run-schedule:
+        type: boolean
+        default: false
+
 workflows:
-  say-hello-workflow:
+  release-all:
     jobs:
-      - say-hello
+      - build-linux64:
+          filters:
+            tags:
+              only: /.*/
+      - build-linux32:
+          filters:
+            tags:
+              only: /.*/
+      - build-windows64:
+          filters:
+            tags:
+              only: /.*/
+      - build-windows32:
+          filters:
+            tags:
+              only: /.*/
+      - build-osx:
+          filters:
+            tags:
+              only: /.*/
+      - release:
+          filters:
+            tags:
+              only: 
+                - /.*/
+            branches:
+              ignore: /.*/
+          requires:
+            - build-linux32
+            - build-linux64
+            - build-windows64
+            - build-windows32
+            - build-osx
+  check-builtins:
+    when: << pipeline.parameters.run-schedule >>
+    jobs: 
+      - check-builtins
+    

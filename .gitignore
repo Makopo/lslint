@@ -4,6 +4,7 @@
 *.obj
 *.output
 lslint
+lslint.exe
 *.log
 *db
 *.tlog

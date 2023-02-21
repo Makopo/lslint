@@ -10,6 +10,8 @@ rem ::     pushd "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\
 rem ::     call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat"
 rem ::     popd
 rem :: )
+set VERSION_NUMBER=1.1.1
+set BUILD_DATE=%DATE:~-10,4%-%DATE:~-5,2%-%DATE:~-2,2%
 set PATH=%PATH%;C:\flexandbison
 nmake /F NMakefile
 mkdir binary\windows32\

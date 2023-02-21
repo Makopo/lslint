@@ -1,6 +1,6 @@
 `lslint` is a tool to check the syntactic and semantic validity of Second Life LSL scripts.
 
-[![Build Status](https://travis-ci.org/Makopo/lslint.svg?branch=master)](https://travis-ci.org/Makopo/lslint)
+[![Makopo](https://circleci.com/gh/Makopo/lslint.svg?style=svg)](https://app.circleci.com/pipelines/github/Makopo/lslint)
 
 #### Releases
 

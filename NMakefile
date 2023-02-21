@@ -1,5 +1,5 @@
-VERSION_NUMBER = v1.2.7
-BUILD_DATE = %DATE:~-10,4%-%DATE:~-5,2%-%DATE:~-2,2%
+VERSION_NUMBER = $(BUILD_VERSION_NUMBER)
+BUILD_DATE = $(BUILD_DATE)
 
 #
 # 1. Download "Win flex-bison" and unpack it
@@ -9,7 +9,7 @@ BUILD_DATE = %DATE:~-10,4%-%DATE:~-5,2%-%DATE:~-2,2%
 #    You need the windows 7.0 SDK or later. 
 #    For Windows XP compatible binaries, the windows 7.0 or 7.1 SDK is required.
 # 
-# 3. Add 1. unpacked directory to PATH.
+# 3. Add 1. unpacked directory to PATH. VERSION_NUMBER and BUILD_DATE are also required. 
 #
 # 4. Run "nmake /F NMakefile" to build or "nmake /F NMakefile debug=1" to build debuggable binary.
 #

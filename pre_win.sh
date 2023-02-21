@@ -1,4 +1,4 @@
-# run this on mingw before running creator_win*.sh
+# run this on mingw before running creator_win*.bat
 
 curl -O https://raw.githubusercontent.com/Sei-Lisa/kwdb/master/outputs/builtins.txt
 
