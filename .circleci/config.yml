@@ -244,7 +244,7 @@ workflows:
             - build-windows32
             - build-osx
   check-builtins:
-    # when: << pipeline.parameters.run-schedule >>
+    when: << pipeline.parameters.run-schedule >>
     jobs: 
       - check-builtins
     
