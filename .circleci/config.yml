@@ -209,7 +209,8 @@ parameters:
 
 workflows:
   release-all:
-    when: [ false, << pipeline.parameters.run-schedule >> ]
+    when: 
+      - equal: [ false, << pipeline.parameters.run-schedule >> ]
     jobs:
       - build-linux64:
           filters:
@@ -245,7 +246,8 @@ workflows:
             - build-windows32
             - build-osx
   check-builtins:
-    when: [ true, << pipeline.parameters.run-schedule >> ]
+    when: 
+      - equal: [ true, << pipeline.parameters.run-schedule >> ]
     jobs: 
       - check-builtins
     
