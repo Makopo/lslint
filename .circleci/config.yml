@@ -184,7 +184,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "65:60:85:2d:b9:dd:8a:5c:7b:d7:3c:f7:f5:62:b0:e7"
+            - "4f:89:75:4a:ac:38:d6:86:6a:99:d3:77:5a:cf:dd:32"
       - run:
           name: fetch_and_compare
           command: |
