@@ -199,7 +199,7 @@ jobs:
               git config user.email "bokemako@gmail.com"
               git add builtins.txt builtins_txt.cc kwdb_version.txt
               git commit -m "update builtins_txt [ci skip]"
-              git push --set-upstream origin main
+              git push --set-upstream origin ${CIRCLE_BRANCH}
             fi
 
 parameters:
